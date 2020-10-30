@@ -1,0 +1,22 @@
+parameters:
+  - name: targetEnv
+    default: ""
+  - name: destroy
+    default: false
+
+stages:
+  - stage: plan
+    jobs:
+      - job: terraform_plan
+        displayName: Terraform Validate and Plan
+        pool:
+          vmImage: $(vmImage)
+        steps:
+          - checkout: self
+          - template: ./tf-init.yaml
+            parameters:
+              targetEnv: ${{ parameters.targetEnv }}
+          # - script: |
+          #     terraform graph -type=plan -draw-cycles > dependency_graph.dot
+          #   displayName: terraform graph
+          #   workingDirectory: $(workDir)

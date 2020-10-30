@@ -1,19 +1,24 @@
-# Starter pipeline
-# Start with a minimal pipeline that you can customize to build and deploy your code.
-# Add steps that build, run tests, deploy, and more:
-# https://aka.ms/yaml
-
 trigger:
-- master
+  - none
 
-pool:
-  vmImage: 'ubuntu-latest'
+parameters:
+  - name: targetEnv
+    displayName: Target Environment
+    type: string
+    default: dev1
+    values:
+      - dev1
 
-steps:
-- script: echo Hello, world!
-  displayName: 'Run a one-line script'
+variables:
+  - template: azdo-templates/variables-nonprod.yaml
+    parameters:
+      targetEnv: ${{ parameters.targetEnv }}
 
-- script: |
-    echo Add other tasks to build, test, and deploy your project.
-    echo See https://aka.ms/yaml
-  displayName: 'Run a multi-line script'
+stages:
+  - template: azdo-templates/tf-plan.yaml
+    parameters:
+      targetEnv: ${{ parameters.targetEnv }}
+
+  - template: azdo-templates/tf-apply.yaml
+    parameters:
+      targetEnv: ${{ parameters.targetEnv }}

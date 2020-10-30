@@ -1,0 +1,11 @@
+parameters:
+  name: targetEnv
+  default: ""
+
+variables:
+  - name: tfVersion
+    value: "0.13.5"
+  - name: vmImage
+    value: "ubuntu-20.04"
+  - name: workDir
+    value: $(System.DefaultWorkingDirectory)/${{ parameters.targetEnv }}
