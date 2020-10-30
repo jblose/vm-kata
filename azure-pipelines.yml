@@ -18,7 +18,3 @@ stages:
   - template: azdo-templates/tf-plan.yaml
     parameters:
       targetEnv: ${{ parameters.targetEnv }}
-
-  - template: azdo-templates/tf-apply.yaml
-    parameters:
-      targetEnv: ${{ parameters.targetEnv }}
